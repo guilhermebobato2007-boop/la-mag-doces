@@ -1,0 +1,12 @@
+SITE PRINCIPAL
+ ├─ imagens
+ │   ├─ logo.png
+ │   ├─ torta-chocolate.jpg
+ │   ├─ torta-ninho.jpg
+ │   ├─ torta-morango.jpg
+ │   ├─ torta-oreo.jpg
+ │   ├─ torta-limao.jpg
+ │   └─ torta-maracuja.jpg
+ ├─ index.html
+ ├─ script.js
+ └─ style.css

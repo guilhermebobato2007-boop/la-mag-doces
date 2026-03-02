@@ -1,1 +1,1 @@
-# L-M.A.G-confec-o-de-doces
+# L-M.A.G confecço de doces

@@ -405,3 +405,230 @@ select{cursor:pointer}
   .nav{gap:10px}
   .btn{width:100%}
 }
+
+/* =========================
+   AJUSTE SOMENTE CELULAR
+========================= */
+
+@media (max-width: 600px){
+
+  .grid{
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .card__img{
+    height: 130px;
+  }
+
+  .card__body{
+    padding: 10px;
+  }
+
+  .card__title h3{
+    font-size: 14px;
+  }
+
+  .price{
+    font-size: 14px;
+  }
+
+  .desc{
+    font-size: 13px;
+    -webkit-line-clamp: 2;
+  }
+
+  .card__actions{
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .card__actions .btn{
+    width: 100%;
+  }
+
+}
+
+/* ===== Ajuste filtros no celular ===== */
+@media (max-width: 600px){
+
+  .controls{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .controls input,
+  .controls select{
+    width: 100%;
+  }
+
+}
+
+@media (max-width: 600px){
+
+  .hero__highlights{
+    grid-template-columns: 1fr 1fr;
+  }
+
+}
+
+/* ===== Hero botões lado a lado no celular ===== */
+@media (max-width: 600px){
+
+  .hero__cta{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .hero__cta .btn{
+    width: 100%;
+  }
+
+}
+
+@media (max-width:600px){
+
+  .hero__cta{
+    display:flex;
+    gap:10px;
+  }
+
+  .hero__cta .btn{
+    width: auto;            /* tira o 100% */
+    flex:1;                 /* divide igualmente */
+    padding:10px 12px;      /* deixa menos alto */
+    font-size:14px;         /* fonte levemente menor */
+  }
+
+}
+
+@media (max-width:600px){
+
+  .hero__cta .btn{
+    flex:1;
+    padding:7px 8px;
+    font-size:12px;
+    border-radius:10px;
+  }
+
+}
+
+@media (max-width:600px){
+
+  .hero__highlights{
+    grid-template-columns: repeat(2, 1fr);
+    gap:8px;
+  }
+
+  .mini{
+    padding:10px;
+    border-radius:14px;
+  }
+
+  .mini__t{
+    font-size:14px;
+  }
+
+  .mini__d{
+    font-size:12px;
+  }
+
+}
+
+@media (max-width:600px){
+
+  /* diminuir espaçamento geral do grid */
+  .grid{
+    gap:10px;
+  }
+
+  /* card mais compacto */
+  .card{
+    border-radius:16px;
+  }
+
+  .card__body{
+    padding:10px;
+    gap:6px;
+  }
+
+  /* imagem um pouco menor */
+  .card__img{
+    aspect-ratio: 1 / 1;
+  }
+
+  /* título menor */
+  .card__title h3{
+    font-size:15px;
+  }
+
+  .price{
+    font-size:14px;
+  }
+
+  /* descrição menor */
+  .desc{
+    font-size:13px;
+  }
+
+  /* quantidade menor */
+  .qty{
+    padding:6px 8px;
+  }
+
+  .qty button{
+    width:26px;
+    height:26px;
+  }
+
+  /* botão adicionar menor */
+  .card__actions .btn{
+    padding:8px 10px;
+    font-size:14px;
+    border-radius:12px;
+  }
+
+}
+
+@media (max-width:600px){
+
+  /* diminuir altura da parte branca */
+  .card__body{
+    padding:8px;
+    gap:4px;
+  }
+
+  /* remover descrição no celular */
+  .desc{
+    display:none;
+  }
+
+  /* diminuir espaço interno do bloco de quantidade */
+  .qty{
+    padding:5px 6px;
+  }
+
+  /* diminuir botão */
+  .card__actions .btn{
+    padding:6px 8px;
+    font-size:13px;
+  }
+
+}
+
+
+.section--soft {
+  margin-top: 8px;
+  padding-top: 40px; /* compensa o corte */
+}
+
+.hero {
+  padding-top: 3px;
+  padding-bottom: 0;
+}
+
+.assinatura {
+  margin-top: -40px;
+}

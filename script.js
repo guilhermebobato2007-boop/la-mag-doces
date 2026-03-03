@@ -3,9 +3,9 @@ const WHATSAPP_PHONE = "5516993201091";
 
 // Produtos
 const productsBase = [
-  { id: "chocolate", name: "Tortinha de Chocolate", price: 7.00, img: "imagens/torta-chocolate.jpg", desc: "Cacau intenso e recheio cremoso.", tags: ["Gourmet"] },
+  { id: "chocolate", name: "Tortinha de Chocolate", price: 7.50, img: "imagens/torta-chocolate.jpg", desc: "Cacau intenso e recheio cremoso.", tags: ["Gourmet"] },
   { id: "limão", name: "Tortinha de Limão", price: 7.00, img: "imagens/torta-limao.jpg", desc: "Sabor premium e marcante.", tags: ["Gourmet"] },
-  { id: "maracuja", name: "Tortinha de Maracujá", price: 7.00, img: "imagens/torta-maracuja.jpg", desc: "Azeddinha na medida certa.", tags: ["Gourmet"] },
+  { id: "maracuja", name: "Tortinha de Maracujá", price: 8.00, img: "imagens/torta-maracuja.jpg", desc: "Azeddinha na medida certa.", tags: ["Gourmet"] },
 ];
 
 let state = {
@@ -282,4 +282,5 @@ sortSelect.addEventListener("change", applyFilters);
 yearEl.textContent = new Date().getFullYear();
 loadCart();
 renderProducts(state.products);
+
 renderCart();

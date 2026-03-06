@@ -282,5 +282,34 @@ sortSelect.addEventListener("change", applyFilters);
 yearEl.textContent = new Date().getFullYear();
 loadCart();
 renderProducts(state.products);
-
 renderCart();
+
+document.addEventListener("DOMContentLoaded", function () {
+  const popupAviso = document.getElementById("popupAviso");
+  const fecharPopup = document.getElementById("fecharPopup");
+  const botaoPedido = document.getElementById("sendWhatsBtn");
+
+  const hoje = new Date().getDay();
+  const fimDeSemana = (hoje === 0 || hoje === 6); // domingo ou sábado
+
+  if (popupAviso) {
+    if (fimDeSemana) {
+      popupAviso.style.display = "flex";
+    } else {
+      popupAviso.style.display = "none";
+    }
+  }
+
+  if (fecharPopup && popupAviso) {
+    fecharPopup.addEventListener("click", function () {
+      popupAviso.style.display = "none";
+    });
+  }
+
+  if (botaoPedido && fimDeSemana) {
+    botaoPedido.textContent = "Pedidos fechados no fim de semana";
+    botaoPedido.disabled = true;
+    botaoPedido.classList.add("btn-fechado");
+  }
+});
+

@@ -1,315 +1,293 @@
-//  WhatsApp
-const WHATSAPP_PHONE = "5516993201091";
-
-// Produtos
-const productsBase = [
-  { id: "chocolate", name: "Tortinha de Chocolate", price: 7.50, img: "imagens/torta-chocolate.jpg", desc: "Cacau intenso e recheio cremoso.", tags: ["Gourmet"] },
-  { id: "limão", name: "Tortinha de Limão", price: 7.00, img: "imagens/torta-limao.jpg", desc: "Sabor premium e marcante.", tags: ["Gourmet"] },
-  { id: "maracuja", name: "Tortinha de Maracujá", price: 8.00, img: "imagens/torta-maracuja.jpg", desc: "Azeddinha na medida certa.", tags: ["Gourmet"] },
+// 1. Banco de Dados de Produtos
+const produtos = [
+  {
+    id: 1,
+    nome: "Tortinha de chocolate",
+    preco: 7.50,
+    img: "imagens/torta-chocolate.jpg",
+    tag: "Clássicas",
+    desc: "Chocolate intenso com textura cremosa e sabor irresistível."
+  },
+  {
+    id: 2,
+    nome: "Tortinha de limão",
+    preco: 7.00,
+    img: "imagens/torta-limao.jpg",
+    tag: "Clássicas",
+    desc: "Creme de limão suave com equilíbrio perfeito entre doce e cítrico."
+  },
+  {
+    id: 3,
+    nome: "Tortinha de maracuja",
+    preco: 8.00,
+    img: "imagens/torta-maracuja.jpg",
+    tag: "Especiais",
+    desc: "Sabor tropical com equilíbrio entre acidez e doçura."
+  },
 ];
 
-let state = {
-  products: [...productsBase],
-  cart: {}, // {id: qty}
-};
+// Configurações
+const TAXA_ENTREGA = 2.00;
+const ENDERECO_RETIRADA = "Barrinha/SP";
+const PRAZO_ESTIMADO = "45 a 60 minutos";
 
-// ====== HELPERS ======
-const brl = (v) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-const byId = (id) => document.getElementById(id);
+// 2. Estado da Aplicação
+let carrinho = [];
 
-function getProduct(id){ return productsBase.find(p => p.id === id); }
+// 3. Verificação de Funcionamento da Loja (Centralizado)
+function lojaAberta() {
+  const agora = new Date();
+  const hora = agora.getHours();
+  const dia = agora.getDay(); // 0 = domingo, 6 = sábado
 
-function cartCount(){
-  return Object.values(state.cart).reduce((acc, q) => acc + q, 0);
-}
-function cartSubtotal(){
-  return Object.entries(state.cart).reduce((acc, [id, q]) => acc + (getProduct(id).price * q), 0);
-}
-
-function saveCart(){
-  localStorage.setItem("lamag_cart", JSON.stringify(state.cart));
-}
-function loadCart(){
-  try{
-    const raw = localStorage.getItem("lamag_cart");
-    if(raw) state.cart = JSON.parse(raw) || {};
-  }catch(e){}
+  if (dia === 0 || dia === 6) return false;
+  return hora >= 8 && hora < 18;
 }
 
-function setCartQty(id, qty){
-  if(qty <= 0) delete state.cart[id];
-  else state.cart[id] = qty;
+function atualizarStatusLoja() {
+  const bola = document.getElementById("status-bola");
+  const texto = document.getElementById("status-texto");
+
+  if (!bola || !texto) return;
+
+  if (lojaAberta()) {
+    bola.className = "bola-aberto";
+    texto.textContent = "ABERTO";
+    texto.style.color = "#2ecc71";
+  } else {
+    bola.className = "bola-fechado";
+    texto.textContent = "FECHADO";
+    texto.style.color = "#e74c3c";
+  }
 }
-function addToCart(id, delta){
-  const current = state.cart[id] || 0;
-  const next = Math.max(0, current + delta);
-  setCartQty(id, next);
-  saveCart();
+
+// 4. Interface e Scroll
+function scrollToSection(id) {
+  const section = document.getElementById(id);
+  if (section) {
+    // Calcula o scroll descontando o tamanho da Navbar (aprox 80px)
+    const offset = 80;
+    const bodyRect = document.body.getBoundingClientRect().top;
+    const elementRect = section.getBoundingClientRect().top;
+    const elementPosition = elementRect - bodyRect;
+    const offsetPosition = elementPosition - offset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth"
+    });
+  }
 }
 
-// ====== UI REFS ======
-const grid = byId("productsGrid");
-const cartDrawer = byId("cartDrawer");
-const cartItems = byId("cartItems");
-const cartCountEl = byId("cartCount");
-const cartSubtotalEl = byId("cartSubtotal");
-const yearEl = byId("year");
+// 5. Renderização e Filtros do Cardápio
+function renderProducts(filter = "todos") {
+  const grid = document.getElementById("productsGrid");
+  if (!grid) return;
 
-const searchInput = byId("searchInput");
-const sortSelect = byId("sortSelect");
+  const filtrados = filter === "todos" ? produtos : produtos.filter(p => p.tag === filter);
 
-const openCartBtn = byId("openCartBtn");
-const openCartBtn2 = byId("openCartBtn2");
-const closeCartBtn = byId("closeCartBtn");
-const closeCartOverlay = byId("closeCartOverlay");
-
-const sendWhatsBtn = byId("sendWhatsBtn");
-const clearCartBtn = byId("clearCartBtn");
-const whatsQuickBtn = byId("whatsQuickBtn");
-
-const customerName = byId("customerName");
-const customerNotes = byId("customerNotes");
-
-// ====== RENDER ======
-function renderProducts(list){
-  grid.innerHTML = "";
-
-  list.forEach(p => {
-    const qty = state.cart[p.id] || 0;
-
-    const card = document.createElement("article");
-    card.className = "card";
-
-    card.innerHTML = `
-      <img class="card__img" src="${p.img}" alt="${p.name}">
-      <div class="card__body">
-        <div class="card__title">
-          <div>
-            <h3>${p.name}</h3>
-            <div class="tags">
-              ${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}
-            </div>
-          </div>
-          <div class="price">${brl(p.price)}</div>
-        </div>
-
-        <p class="desc">${p.desc}</p>
-
-        <div class="card__actions">
-          <div class="qty" aria-label="Quantidade">
-            <button data-action="dec" data-id="${p.id}" aria-label="Diminuir">−</button>
-            <span id="qty-${p.id}">${qty}</span>
-            <button data-action="inc" data-id="${p.id}" aria-label="Aumentar">+</button>
-          </div>
-          <button class="btn btn--ghost" data-action="add" data-id="${p.id}" type="button">Adicionar</button>
+  grid.innerHTML = filtrados.map(p => `
+    <article class="product-card">
+      <img src="${p.img}" alt="${p.nome}">
+      <div class="product-body">
+        <div class="product-tag">${p.tag}</div>
+        <h3 class="product-title">${p.nome}</h3>
+        <p class="product-desc">${p.desc}</p>
+        <div class="product-footer">
+          <span class="product-price">R$ ${p.preco.toFixed(2)}</span>
+          <button class="btn-add" onclick="addToCart(${p.id})">Adicionar</button>
         </div>
       </div>
-    `;
+    </article>
+  `).join("");
+}
 
-    grid.appendChild(card);
-  });
-
-  grid.querySelectorAll("button[data-action]").forEach(btn => {
+function setupFilters() {
+  const btns = document.querySelectorAll(".filter-btn");
+  btns.forEach(btn => {
     btn.addEventListener("click", () => {
-      const id = btn.dataset.id;
-      const action = btn.dataset.action;
-
-      if(action === "inc" || action === "add") addToCart(id, 1);
-      if(action === "dec") addToCart(id, -1);
-
-      const q = state.cart[id] || 0;
-      const qtyEl = document.querySelector(`#qty-${id}`);
-      if(qtyEl) qtyEl.textContent = q;
-
-      renderCart();
+      btns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderProducts(btn.getAttribute("data-filter"));
     });
   });
 }
 
-function renderCart(){
-  cartCountEl.textContent = cartCount();
-  cartSubtotalEl.textContent = brl(cartSubtotal());
-
-  const entries = Object.entries(state.cart).filter(([,q]) => q > 0);
-
-  if(entries.length === 0){
-    cartItems.innerHTML = `
-      <div class="note">
-        Seu carrinho está vazio. Escolha suas trufas no cardápio 🍫
-      </div>
-    `;
+// 6. Lógica do Carrinho
+function addToCart(id) {
+  if (!lojaAberta()) {
+    alert("Estamos fechados no momento.\nFuncionamos de segunda a sexta das 8h às 18h.");
     return;
   }
 
-  cartItems.innerHTML = "";
-  entries.forEach(([id, q]) => {
-    const p = getProduct(id);
+  const produto = produtos.find(p => p.id === id);
+  if (!produto) return;
 
-    const item = document.createElement("div");
-    item.className = "cart-item";
-    item.innerHTML = `
-      <div>
-        <strong>${p.name}</strong>
-        <div class="muted">${q} × ${brl(p.price)} • Total: <strong>${brl(p.price * q)}</strong></div>
-      </div>
-      <div class="cart-item__right">
-        <button data-id="${id}" data-action="plus" type="button">+1</button>
-        <button data-id="${id}" data-action="minus" type="button">-1</button>
-        <button data-id="${id}" data-action="remove" type="button">Remover</button>
-      </div>
-    `;
-    cartItems.appendChild(item);
-  });
-
-  cartItems.querySelectorAll("button[data-action]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.id;
-      const action = btn.dataset.action;
-
-      if(action === "plus") addToCart(id, 1);
-      if(action === "minus") addToCart(id, -1);
-      if(action === "remove") { setCartQty(id, 0); saveCart(); }
-
-      const qtyEl = document.querySelector(`#qty-${id}`);
-      if(qtyEl) qtyEl.textContent = state.cart[id] || 0;
-
-      renderCart();
-    });
-  });
-}
-
-function applyFilters(){
-  const q = (searchInput.value || "").trim().toLowerCase();
-  let list = [...productsBase];
-
-  if(q){
-    list = list.filter(p => (p.name + " " + p.desc + " " + p.tags.join(" ")).toLowerCase().includes(q));
+  const existente = carrinho.find(item => item.id === id);
+  if (existente) {
+    existente.qtd += 1;
+  } else {
+    carrinho.push({ ...produto, qtd: 1 });
   }
 
-  const sort = sortSelect.value;
-  if(sort === "priceAsc") list.sort((a,b) => a.price - b.price);
-  if(sort === "priceDesc") list.sort((a,b) => b.price - a.price);
-  if(sort === "nameAsc") list.sort((a,b) => a.name.localeCompare(b.name, "pt-BR"));
-
-  state.products = list;
-  renderProducts(list);
+  atualizarResumoCarrinho(); 
+  // abrirCarrinho(); <--- APAGUE ESTA LINHA!
 }
 
-// ====== DRAWER ======
-function openCart(){
-  cartDrawer.classList.add("open");
-  cartDrawer.setAttribute("aria-hidden", "false");
-  renderCart();
-}
-function closeCart(){
-  cartDrawer.classList.remove("open");
-  cartDrawer.setAttribute("aria-hidden", "true");
-}
+function atualizarResumoCarrinho() {
+  const badgeNavbar = document.getElementById("cartCount");
+  const badgeFlutuante = document.getElementById("contadorFlutuante");
+  const carrinhoFlutuante = document.getElementById("carrinhoFlutuante");
+  
+  const totalItens = carrinho.reduce((sum, item) => sum + item.qtd, 0);
+  
+  // Atualiza os números
+  if (badgeNavbar) badgeNavbar.textContent = String(totalItens);
+  if (badgeFlutuante) badgeFlutuante.textContent = String(totalItens);
+  
+  // Mostra ou esconde o botão flutuante com base na quantidade
+  if (carrinhoFlutuante) {
+      if (totalItens > 0) {
+          carrinhoFlutuante.classList.remove("oculto");
+          
+          // Efeito de pulinho no botão flutuante!
+          carrinhoFlutuante.classList.remove('anima-carrinho');
+          void carrinhoFlutuante.offsetWidth; 
+          carrinhoFlutuante.classList.add('anima-carrinho');
+      } else {
+          carrinhoFlutuante.classList.add("oculto");
+      }
+  }
 
-// ====== WHATSAPP ======
-function buildWhatsMessage(){
-  const entries = Object.entries(state.cart).filter(([,q]) => q > 0);
-  if(entries.length === 0) return null;
+  // Efeito de pulinho no ícone da Navbar lá em cima (opcional)
+  const btnCarrinhoNav = document.querySelector('.cart-button');
+  if (btnCarrinhoNav && totalItens > 0) {
+    btnCarrinhoNav.classList.remove('anima-carrinho'); 
+    void btnCarrinhoNav.offsetWidth; 
+    btnCarrinhoNav.classList.add('anima-carrinho'); 
+  }
 
-  const name = (customerName.value || "").trim();
-  if(!name) return "NAME_REQUIRED";
-
-  const notes = (customerNotes.value || "").trim();
-
-  let msg = `Olá! Vim pelo site da Lá M.A.G 🍫%0A`;
-  msg += `Nome: ${encodeURIComponent(name)}%0A`;
-  msg += `%0A*Meu pedido:*%0A`;
-
-  entries.forEach(([id, q]) => {
-    const p = getProduct(id);
-    msg += `- ${q}x ${encodeURIComponent(p.name)} (${encodeURIComponent(brl(p.price))})%0A`;
-  });
-
-  msg += `%0A*Subtotal:* ${encodeURIComponent(brl(cartSubtotal()))}%0A`;
-  if(notes) msg += `%0AObs.: ${encodeURIComponent(notes)}%0A`;
-  msg += `%0APodemos combinar entrega/retirada? 😊`;
-
-  return msg;
-}
-
-function openWhats(msg){
-  const url = `https://wa.me/${WHATSAPP_PHONE}?text=${msg}`;
-  window.open(url, "_blank");
+  renderCartDrawer();
 }
 
-// ====== EVENTS ======
-openCartBtn.addEventListener("click", openCart);
-openCartBtn2.addEventListener("click", openCart);
-closeCartBtn.addEventListener("click", closeCart);
-closeCartOverlay.addEventListener("click", closeCart);
+function removerDoCarrinho(id) {
+  carrinho = carrinho.filter(item => item.id !== id);
+  atualizarResumoCarrinho();
+}
 
-sendWhatsBtn.addEventListener("click", () => {
-  const msg = buildWhatsMessage();
+// 7. Gaveta (Drawer) do Carrinho
+function abrirCarrinho() {
+  document.getElementById("cartOverlay")?.classList.add("is-open");
+  document.getElementById("cartDrawer")?.classList.add("is-open");
+  document.body.style.overflow = "hidden";
+  renderCartDrawer();
+}
 
-  if(msg === null){
-    alert("Seu carrinho está vazio 😄");
+function fecharCarrinho() {
+  document.getElementById("cartOverlay")?.classList.remove("is-open");
+  document.getElementById("cartDrawer")?.classList.remove("is-open");
+  document.body.style.overflow = "";
+}
+
+function toggleEndereco(mostrar) {
+  const campo = document.getElementById("campoEndereco");
+  if (mostrar) {
+    campo.classList.remove("hidden");
+  } else {
+    campo.classList.add("hidden");
+  }
+  renderCartDrawer();
+}
+
+function renderCartDrawer() {
+  const list = document.getElementById("cartDrawerList");
+  const totalEl = document.getElementById("cartTotal");
+  if (!list) return;
+
+  const subtotal = carrinho.reduce((sum, item) => sum + (item.preco * item.qtd), 0);
+  const isEntrega = document.querySelector('input[name="tipoEntrega"]:checked')?.value === 'entrega';
+  const totalGeral = isEntrega ? subtotal + TAXA_ENTREGA : subtotal;
+
+  if (carrinho.length === 0) {
+    list.innerHTML = '<p class="cart-drawer-empty" style="text-align:center; padding: 20px;">Seu carrinho está vazio.</p>';
+  } else {
+    list.innerHTML = carrinho.map(item => `
+      <div class="cart-drawer-item" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #44251a; padding: 10px 0;">
+        <div class="cart-info">
+          <span style="display:block; font-size: 0.9rem;">${item.nome}</span>
+          <span style="font-size: 0.8rem; color: #e4cbb0;">Qtd: ${item.qtd}</span>
+        </div>
+        <div style="text-align:right;">
+            <span style="display:block; color: #e28a3a; font-weight:bold;">R$ ${(item.preco * item.qtd).toFixed(2)}</span>
+            <button onclick="removerDoCarrinho(${item.id})" style="background:transparent; border:none; color:#e4cbb0; cursor:pointer;">Remover</button>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  if (totalEl) totalEl.textContent = `R$ ${totalGeral.toFixed(2)}`;
+}
+
+// 8. Finalização da Compra via WhatsApp
+function finalizarCompra() {
+  if (!lojaAberta()) {
+    alert("Loja fechada no momento.\nFuncionamos de segunda a sexta das 8h às 18h.");
     return;
   }
 
-  if(msg === "NAME_REQUIRED"){
-    alert("Por favor, informe seu nome antes de enviar o pedido 😊");
-    customerName.focus();
+  if (carrinho.length === 0) {
+    alert("Seu carrinho está vazio!");
     return;
   }
 
-  openWhats(msg);
-});
+  const nome = document.getElementById("clienteNome")?.value;
+  const telefone = document.getElementById("clienteTelefone")?.value;
+  const tipoEntrega = document.querySelector('input[name="tipoEntrega"]:checked')?.value;
+  const endereco = document.getElementById("clienteEndereco")?.value;
 
-clearCartBtn.addEventListener("click", () => {
-  state.cart = {};
-  saveCart();
-  renderCart();
-  productsBase.forEach(p => {
-    const el = document.querySelector(`#qty-${p.id}`);
-    if(el) el.textContent = "0";
-  });
-});
-
-whatsQuickBtn.addEventListener("click", () => {
-  const msg = encodeURIComponent("Olá! Quero fazer um pedido de trufas gourmet da Lá M.A.G 🍫");
-  window.open(`https://wa.me/${WHATSAPP_PHONE}?text=${msg}`, "_blank");
-});
-
-searchInput.addEventListener("input", applyFilters);
-sortSelect.addEventListener("change", applyFilters);
-
-// ====== INIT ======
-yearEl.textContent = new Date().getFullYear();
-loadCart();
-renderProducts(state.products);
-renderCart();
-
-document.addEventListener("DOMContentLoaded", function () {
-  const popupAviso = document.getElementById("popupAviso");
-  const fecharPopup = document.getElementById("fecharPopup");
-  const botaoPedido = document.getElementById("sendWhatsBtn");
-
-  const hoje = new Date().getDay();
-  const fimDeSemana = (hoje === 0 || hoje === 6); // domingo ou sábado
-
-  if (popupAviso) {
-    if (fimDeSemana) {
-      popupAviso.style.display = "flex";
-    } else {
-      popupAviso.style.display = "none";
-    }
+  if (!nome || !telefone) {
+    alert("Por favor, preencha seu nome e WhatsApp.");
+    return;
   }
 
-  if (fecharPopup && popupAviso) {
-    fecharPopup.addEventListener("click", function () {
-      popupAviso.style.display = "none";
-    });
+  if (tipoEntrega === 'entrega' && !endereco) {
+    alert("Por favor, informe o endereço para entrega.");
+    return;
   }
 
-  if (botaoPedido && fimDeSemana) {
-    botaoPedido.textContent = "Pedidos fechados no fim de semana";
-    botaoPedido.disabled = true;
-    botaoPedido.classList.add("btn-fechado");
+  const numero = "5516993201091";
+  const resumoItens = carrinho.map((item, i) => `- ${item.nome} (x${item.qtd}): R$ ${(item.preco * item.qtd).toFixed(2)}`).join("\n");
+  const subtotal = carrinho.reduce((sum, item) => sum + (item.preco * item.qtd), 0);
+  const total = tipoEntrega === 'entrega' ? subtotal + TAXA_ENTREGA : subtotal;
+
+  let msg = `*Novo Pedido - Lá M.A.G*\n\n`;
+  msg += `*Cliente:* ${nome}\n`;
+  msg += `*WhatsApp:* ${telefone}\n`;
+  msg += `--------------------------\n`;
+  msg += `*ITENS:*\n${resumoItens}\n`;
+  msg += `--------------------------\n`;
+
+  if (tipoEntrega === 'entrega') {
+    msg += `*MODO:* Entrega 🚀\n`;
+    msg += `*ENDEREÇO:* ${endereco}\n`;
+    msg += `*TAXA:* R$ ${TAXA_ENTREGA.toFixed(2)}\n`;
+    msg += `*PRAZO:* ${PRAZO_ESTIMADO}\n`;
+  } else {
+    msg += `*MODO:* Retirada 🏪\n`;
+    msg += `*LOCAL:* ${ENDERECO_RETIRADA}\n`;
   }
+
+  msg += `\n*TOTAL: R$ ${total.toFixed(2)}*`;
+
+  window.open(`https://wa.me/${numero}?text=${encodeURIComponent(msg)}`, "_blank");
+}
+
+// 9. Inicialização da Página (Onde tudo começa)
+document.addEventListener("DOMContentLoaded", () => {
+  renderProducts();
+  setupFilters();
+  atualizarStatusLoja();
+  
+  // Atualiza o status automaticamente a cada 1 minuto (60000 ms)
+  setInterval(atualizarStatusLoja, 60000);
 });
-

@@ -631,22 +631,31 @@
 }
 
 /* ==========================================================================
-   CORREÇÃO DO CARRINHO TRAVADO (TECLADO E ZOOM)
+   CORREÇÃO DEFINITIVA: CARRINHO, TECLADO E SCROLL
    ========================================================================== */
 
-/* 1. Impede o celular de dar zoom automático e travar a tela */
+/* 1. Evita o zoom automático do teclado no celular */
 .cart-input {
     font-size: 16px !important; 
 }
 
-/* 2. Adapta a gaveta para o tamanho do teclado e permite rolar até o fim */
+/* 2. Gaveta com altura exata da tela e bloqueio de rolagem do fundo */
 .cart-drawer {
     height: 100% !important; 
-    height: 100dvh !important; /* Medida moderna que desconta o espaço do teclado */
-    overflow-y: auto !important; /* Libera o scroll geral do carrinho */
+    height: 100dvh !important; /* Desconta o espaço exato do teclado */
+    display: flex !important;
+    flex-direction: column !important;
+    overscroll-behavior: none !important; /* A MÁGICA: Impede a loja lá atrás de rolar junto! */
 }
 
-/* 3. Evita que o formulário seja esmagado pelo teclado */
+/* 3. Apenas a lista de produtos deve rolar, travando o movimento nela */
+.cart-drawer-list {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important; /* Prende o scroll dentro da lista */
+}
+
+/* 4. Protege o formulário e o botão de serem esmagados pelo teclado */
 .cart-form, .cart-drawer-footer {
     flex-shrink: 0 !important; 
 }

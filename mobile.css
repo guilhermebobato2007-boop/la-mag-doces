@@ -631,33 +631,37 @@
 }
 
 /* ==========================================================================
-   CORREÇÃO MÁXIMA: TRAVAMENTO DE TELA E TECLADO (IOS E ANDROID)
+   BLINDAGEM DO CARRINHO (IOS E ANDROID)
    ========================================================================== */
 
-/* 1. Trava o zoom ao clicar para digitar o nome */
+/* 1. Trava o zoom maldito do teclado */
 .cart-input {
     font-size: 16px !important; 
 }
 
-/* 2. Prega a gaveta no teto e no chão (Evita o pulo da barra de endereços) */
+/* 2. Fixa o carrinho usando 100dvh para ignorar a barra de endereços */
 .cart-drawer {
     position: fixed !important;
     top: 0 !important;
-    bottom: 0 !important; /* A âncora que resolve o pulo */
-    height: auto !important; /* Removemos a altura problemática */
+    right: 0 !important;
+    bottom: 0 !important;
+    height: 100dvh !important; /* Pega a altura dinâmica da tela */
     display: flex !important;
     flex-direction: column !important;
+    overscroll-behavior: none !important; 
+    z-index: 9999 !important; /* Garante que nada passe por cima */
 }
 
-/* 3. Apenas os produtos rolam. O botão de finalizar fica preso embaixo */
+/* 3. Área de rolagem macia apenas para os produtos */
 .cart-drawer-list {
     flex: 1 1 auto !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important; /* Deixa a rolagem macia igual app no iPhone */
-    overscroll-behavior: contain !important; /* Corrente de proteção: não deixa o fundo rolar */
+    overflow-y: scroll !important; /* Força a barra de rolagem a ficar aqui */
+    -webkit-overflow-scrolling: touch !important; 
+    overscroll-behavior: contain !important;
 }
 
-/* 4. Protege o formulário de ser esmagado */
+/* 4. Trava o formulário e o botão no fundo, faça chuva ou faça sol */
 .cart-form, .cart-drawer-footer {
     flex: 0 0 auto !important;
+    background: var(--bg) !important; /* Evita que fiquem transparentes no bug */
 }

@@ -65,7 +65,6 @@ function atualizarStatusLoja() {
 function scrollToSection(id) {
   const section = document.getElementById(id);
   if (section) {
-    // Calcula o scroll descontando o tamanho da Navbar (aprox 80px)
     const offset = 80;
     const bodyRect = document.body.getBoundingClientRect().top;
     const elementRect = section.getBoundingClientRect().top;
@@ -116,7 +115,7 @@ function setupFilters() {
 // 6. Lógica do Carrinho
 function addToCart(id) {
   if (!lojaAberta()) {
-    alert("Estamos fechados no momento.\nFuncionamos de segunda a sexta das 8h às 18h.");
+    mostrarModalFechado(); 
     return;
   }
 
@@ -130,8 +129,7 @@ function addToCart(id) {
     carrinho.push({ ...produto, qtd: 1 });
   }
 
-  atualizarResumoCarrinho(); 
-  // abrirCarrinho(); <--- APAGUE ESTA LINHA!
+  atualizarResumoCarrinho();
 }
 
 function atualizarResumoCarrinho() {
@@ -141,16 +139,12 @@ function atualizarResumoCarrinho() {
   
   const totalItens = carrinho.reduce((sum, item) => sum + item.qtd, 0);
   
-  // Atualiza os números
   if (badgeNavbar) badgeNavbar.textContent = String(totalItens);
   if (badgeFlutuante) badgeFlutuante.textContent = String(totalItens);
   
-  // Mostra ou esconde o botão flutuante com base na quantidade
   if (carrinhoFlutuante) {
       if (totalItens > 0) {
           carrinhoFlutuante.classList.remove("oculto");
-          
-          // Efeito de pulinho no botão flutuante!
           carrinhoFlutuante.classList.remove('anima-carrinho');
           void carrinhoFlutuante.offsetWidth; 
           carrinhoFlutuante.classList.add('anima-carrinho');
@@ -159,7 +153,6 @@ function atualizarResumoCarrinho() {
       }
   }
 
-  // Efeito de pulinho no ícone da Navbar lá em cima (opcional)
   const btnCarrinhoNav = document.querySelector('.cart-button');
   if (btnCarrinhoNav && totalItens > 0) {
     btnCarrinhoNav.classList.remove('anima-carrinho'); 
@@ -180,7 +173,6 @@ function abrirCarrinho() {
   document.getElementById("cartOverlay")?.classList.add("is-open");
   document.getElementById("cartDrawer")?.classList.add("is-open");
   
-  // A MÁGICA ANTI-BUG: Trava o body e o html ao mesmo tempo
   document.documentElement.style.overflow = "hidden";
   document.body.style.overflow = "hidden";
   
@@ -191,7 +183,6 @@ function fecharCarrinho() {
   document.getElementById("cartOverlay")?.classList.remove("is-open");
   document.getElementById("cartDrawer")?.classList.remove("is-open");
   
-  // Libera a página para rolar normalmente de novo
   document.documentElement.style.overflow = "";
   document.body.style.overflow = "";
 }
@@ -209,7 +200,9 @@ function toggleEndereco(mostrar) {
 function renderCartDrawer() {
   const list = document.getElementById("cartDrawerList");
   const totalEl = document.getElementById("cartTotal");
-  if (!list) return;
+  const footerArea = document.querySelector(".cart-drawer-footer");
+  
+  if (!list || !totalEl) return;
 
   const subtotal = carrinho.reduce((sum, item) => sum + (item.preco * item.qtd), 0);
   const isEntrega = document.querySelector('input[name="tipoEntrega"]:checked')?.value === 'entrega';
@@ -232,13 +225,19 @@ function renderCartDrawer() {
     `).join("");
   }
 
-  if (totalEl) totalEl.textContent = `R$ ${totalGeral.toFixed(2)}`;
+  totalEl.textContent = `R$ ${totalGeral.toFixed(2)}`;
+
+  // Atualiza o botão de finalizar conforme o status da loja
+  const btnFinalizar = document.getElementById("btnFinalizarPedido");
+  if (btnFinalizar) {
+      btnFinalizar.onclick = lojaAberta() ? finalizarCompra : mostrarModalFechado;
+  }
 }
 
 // 8. Finalização da Compra via WhatsApp
 function finalizarCompra() {
   if (!lojaAberta()) {
-    alert("Loja fechada no momento.\nFuncionamos de segunda a sexta das 8h às 18h.");
+    mostrarModalFechado();
     return;
   }
 
@@ -263,7 +262,7 @@ function finalizarCompra() {
   }
 
   const numero = "5516993201091";
-  const resumoItens = carrinho.map((item, i) => `- ${item.nome} (x${item.qtd}): R$ ${(item.preco * item.qtd).toFixed(2)}`).join("\n");
+  const resumoItens = carrinho.map((item) => `- ${item.nome} (x${item.qtd}): R$ ${(item.preco * item.qtd).toFixed(2)}`).join("\n");
   const subtotal = carrinho.reduce((sum, item) => sum + (item.preco * item.qtd), 0);
   const total = tipoEntrega === 'entrega' ? subtotal + TAXA_ENTREGA : subtotal;
 
@@ -289,12 +288,37 @@ function finalizarCompra() {
   window.open(`https://wa.me/${numero}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
-// 9. Inicialização da Página (Onde tudo começa)
+// 9. Funções do Modal de Aviso
+function mostrarModalFechado() {
+    const modal = document.getElementById('closedModal');
+    if (modal) {
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function fecharModalFechado() {
+    const modal = document.getElementById('closedModal');
+    if (modal) {
+        modal.classList.remove('is-open');
+        if (!document.getElementById("cartDrawer").classList.contains("is-open")) {
+            document.body.style.overflow = '';
+        }
+    }
+}
+
+// Fechar modal ao clicar fora
+window.onclick = function(event) {
+    const modal = document.getElementById('closedModal');
+    if (event.target == modal) {
+        fecharModalFechado();
+    }
+}
+
+// 10. Inicialização da Página
 document.addEventListener("DOMContentLoaded", () => {
   renderProducts();
   setupFilters();
   atualizarStatusLoja();
-  
-  // Atualiza o status automaticamente a cada 1 minuto (60000 ms)
   setInterval(atualizarStatusLoja, 60000);
 });

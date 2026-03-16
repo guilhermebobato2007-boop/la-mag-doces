@@ -8,16 +8,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
   <link rel="icon" type="image/png" href="imagens/favicon.png" sizes="192x192">
-  <link rel="apple-touch-icon" href="imagens/favicon.png"> <link rel="stylesheet" href="style.css" />
+  <link rel="apple-touch-icon" href="imagens/favicon.png">
+  
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="mobile.css">
+  
   <meta name="google-site-verification" content="nNkgDboRHXmFlmVo0hEUoaRZpYSx0J0v_9j6m2fKsbI" />
 </head>
 <body>
-  
-
-
 
 <nav class="navbar">
     <div class="navbar-inner">
@@ -35,7 +35,6 @@
         </ul>
         
         <div class="nav-actions" style="display: flex; align-items: center; gap: 15px;">
-    
             <div id="status-loja" style="display: flex; align-items: center; gap: 5px;">
                 <span id="status-bola"></span>
                 <span id="status-texto" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase;"></span>
@@ -48,11 +47,9 @@
                 <span class="cart-count" id="cartCount">0</span>
             </button>
         </div>  
+    </div>
 </nav>
 
-      
-
-  <!-- Hero -->
   <header class="hero" id="home">
     <div class="hero-content">
       <span class="hero-tag">Doces artesanais gourmet.</span>
@@ -94,7 +91,6 @@
     </div>
   </header>
 
-  <!-- Destaques -->
   <section class="section" id="destaques">
     <div class="section-header">
       <h2>Tortinhas em destaque</h2>
@@ -130,7 +126,6 @@
     </div>
   </section>
 
-  <!-- Cardápio (JS preenche) -->
   <section class="section section-alt" id="cardapio">
     <div class="section-header">
       <h2>Cardápio Premium</h2>
@@ -145,8 +140,7 @@
     </div>
 
     <div class="product-grid" id="productsGrid">
-      <!-- preenchido via script.js -->
-    </div>
+      </div>
 
     <div class="cart-hint">
       Clique em “Adicionar à carrinho” para selecionar seus sabores favoritos.
@@ -154,7 +148,6 @@
 
   </section>
 
-  <!-- Painel do carrinho (lateral) -->
   <div id="cartOverlay" class="cart-overlay" onclick="fecharCarrinho()" aria-hidden="true"></div>
   <aside id="cartDrawer" class="cart-drawer" aria-label="Carrinho de compras">
       <div class="cart-drawer-header">
@@ -190,11 +183,10 @@
   
       <div class="cart-drawer-footer">
           <p class="cart-drawer-total"><strong>Total:</strong> <span id="cartTotal">R$ 0,00</span></p>
-          <button type="button" class="btn-finalizar" onclick="finalizarCompra()">Finalizar via WhatsApp</button>
+          <button type="button" class="btn-finalizar" id="btnFinalizarPedido">Finalizar via WhatsApp</button>
       </div>
   </aside>
 
-  <!-- Sobre -->
   <section class="section" id="sobre">
     <div class="about-grid">
       <div class="about-text">
@@ -227,7 +219,6 @@
     </div>
   </section>
 
-  <!-- Contato / Footer -->
   <footer class="footer" id="contato">
     <div class="footer-grid">
       <div>
@@ -252,13 +243,32 @@
     </div>
   </footer>
 
-  <!-- JS -->
   <script src="script.js"></script>
 
 <button id="carrinhoFlutuante" class="carrinho-flutuante oculto" onclick="abrirCarrinho()">
     <i class="fa-solid fa-cart-shopping"></i>
     <span id="contadorFlutuante" class="contador-flutuante">0</span>
 </button>
+
+<div id="closedModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="fecharModalFechado()">&times;</span>
+        
+        <img src="imagens/favicon.png" alt="Logo Lá M.A.G" class="modal-logo">
+        
+        <i class="fa-solid fa-store-slash modal-icon"></i> <h2>Ops! Estamos Fechados</h2>
+        
+        <p>No momento não estamos aceitando pedidos online.</p>
+        
+        <div class="horario-info">
+            <p class="destaque">Nosso horário de funcionamento é:</p>
+            <p class="dias">Segunda a Sexta</p>
+            <p class="horas">das 8h às 18h</p>
+        </div>
+        
+        <button class="modal-btn" onclick="fecharModalFechado()">Entendi</button>
+    </div>
+</div>
 
 </body>
 </html>

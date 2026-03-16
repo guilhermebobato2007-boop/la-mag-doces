@@ -1,1 +1,634 @@
+/* =========================================
+   MOBILE.CSS - Lá M.A.G Confecção de Doces
+   Responsivo para tablet e celular
+========================================= */
 
+/* TABLETS */
+@media (max-width: 992px) {
+  .navbar-inner {
+    padding: 14px 18px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .nav-links {
+    gap: 18px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin: 24px auto 36px;
+  }
+
+  .hero-content {
+    order: 2;
+  }
+
+  .hero-image {
+    order: 1;
+    height: 300px;
+    max-width: 100%;
+  }
+
+  .hero p {
+    max-width: 100%;
+  }
+
+  .highlight-grid,
+  .about-grid,
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* CELULAR (Consolidado e Otimizado) */
+@media (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  body {
+    background: radial-gradient(circle at top, #5a3525 0, #1b0f0a 55%);
+  }
+
+  .navbar {
+    backdrop-filter: blur(14px);
+  }
+
+  .navbar-inner {
+    padding: 12px 14px;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Permite que os links desçam, mas o topo fica alinhado */
+  }
+
+  .logo {
+    font-size: 1.15rem;
+  }
+
+  .nav-links {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    order: 3;
+    margin-top: 2px;
+  }
+
+  /* Área de toque aumentada para SEO e usabilidade */
+  .nav-links a {
+    font-size: 0.84rem;
+    padding: 10px 5px; 
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .nav-cta {
+    padding: 7px 12px;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  /* STATUS DA LOJA - Apenas a bolinha no mobile para economizar espaço */
+  #status-loja {
+    gap: 4px !important;
+  }
+
+  #status-texto {
+    display: none !important; 
+  }
+
+  .cart-button {
+    font-size: 0.65rem;
+    margin-right: 0;
+  }
+
+  .cart-count {
+    top: -5px;
+    right: -7px;
+    min-width: 17px;
+    height: 17px;
+    font-size: 0.68rem;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin: 18px auto 28px;
+    padding: 0 14px;
+  }
+
+  .hero-content {
+    order: 2;
+  }
+
+  .hero-tag {
+    font-size: 0.66rem;
+    padding: 5px 11px;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+    line-height: 1.08;
+    margin: 14px 0 12px;
+  }
+
+  .hero p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 100%;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0 16px;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 16px;
+    font-size: 0.82rem;
+  }
+
+  .hero-info {
+    gap: 14px;
+    justify-content: space-between;
+  }
+
+  .hero-info div {
+    flex: 1 1 30%;
+    min-width: 90px;
+  }
+
+  .hero-info div strong {
+    font-size: 1rem;
+  }
+
+  .hero-info div span {
+    font-size: 0.76rem;
+    line-height: 1.4;
+  }
+
+  .hero-image {
+    order: 1;
+    height: 235px;
+    border-radius: 20px;
+  }
+
+  .hero-photo-main {
+    border-radius: 20px;
+  }
+
+  .hero-photo-secondary {
+    width: 88px;
+    height: 88px;
+    border-radius: 18px;
+    right: -6px;
+    bottom: -8px;
+  }
+
+  .hero-badge {
+    left: 10px;
+    top: 10px;
+    padding: 6px 12px;
+  }
+
+  .hero-badge span {
+    font-size: 0.62rem;
+  }
+
+  .hero-badge strong {
+    font-size: 0.78rem;
+  }
+
+  .section {
+    padding: 28px 14px 34px;
+  }
+
+  .section-alt {
+    border-radius: 24px;
+    margin-top: 14px;
+  }
+
+  .section-header h2 {
+    font-size: 1.9rem;
+    margin-bottom: 8px;
+  }
+
+  .section-header p {
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  /* DESTAQUES - GRID CONSOLIDADO (3 colunas, sem texto) */
+  .highlight-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .highlight-card {
+    border-radius: 12px;
+  }
+
+  .highlight-image {
+    height: 110px;
+  }
+
+  .highlight-body {
+    padding: 8px;
+    text-align: center;
+  }
+
+  .highlight-body h3 {
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+  }
+
+  .highlight-body p {
+    display: none; /* Escondido conforme sua ideia */
+  }
+
+  .tag {
+    font-size: 0.6rem;
+    padding: 3px 6px;
+  }
+
+  /* FILTROS E PRODUTOS */
+  .filters {
+    gap: 8px;
+    margin: 18px 0 14px;
+  }
+
+  .filter-btn {
+    padding: 10px 14px; /* Área de toque aumentada */
+    font-size: 0.78rem;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .product-card {
+    border-radius: 16px;
+  }
+
+  .product-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .product-body {
+    padding: 14px;
+  }
+
+  .product-tag {
+    font-size: 0.72rem;
+  }
+
+  .product-title {
+    font-size: 1.08rem;
+    line-height: 1.35;
+  }
+
+  .product-desc {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    margin-bottom: 4px;
+  }
+
+  .product-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .product-price {
+    font-size: 1.2rem;
+  }
+
+  .btn-add {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 0.86rem;
+  }
+
+  /* CARRINHO */
+  .cart-hint {
+    margin-top: 16px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .cart-drawer {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .cart-drawer-header {
+    padding: 16px 18px;
+  }
+
+  .cart-drawer-header h2 {
+    font-size: 1.1rem;
+  }
+
+  .cart-drawer-list {
+    padding: 10px;
+  }
+
+  .cart-drawer-item {
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .cart-drawer-item-nome {
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+
+  .cart-drawer-item-qtd,
+  .cart-drawer-item-preco {
+    font-size: 0.83rem;
+  }
+
+  .cart-form {
+    padding: 14px 16px;
+  }
+
+  .form-section-title {
+    font-size: 0.75rem;
+  }
+
+  .cart-input {
+    font-size: 0.88rem;
+    padding: 11px 12px;
+  }
+
+  .delivery-options {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cart-drawer-footer {
+    padding: 14px 16px 18px;
+  }
+
+  .cart-drawer-total {
+    font-size: 0.95rem;
+  }
+
+  .cart-drawer-total span {
+    font-size: 1.05rem;
+  }
+
+  .btn-finalizar {
+    font-size: 0.82rem;
+    padding: 12px 14px;
+  }
+
+  /* SOBRE E FOOTER */
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .about-text h2 {
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .about-text p {
+    font-size: 0.93rem;
+    line-height: 1.65;
+  }
+
+  .about-list {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    padding-left: 18px;
+  }
+
+  .about-card {
+    padding: 16px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-soft);
+  }
+
+  .about-card h3 {
+    font-size: 1.08rem;
+    margin-bottom: 10px;
+  }
+
+  .about-card p {
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  .footer {
+    padding: 26px 14px 18px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .footer h3 {
+    font-size: 1.15rem;
+  }
+
+  .footer h4 {
+    font-size: 0.76rem;
+  }
+
+  .footer p {
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  .footer-bottom {
+    margin-top: 18px;
+    padding-top: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 0.76rem;
+  }
+}
+
+/* CELULARES PEQUENOS */
+@media (max-width: 480px) {
+  .navbar-inner {
+    padding: 10px 12px;
+  }
+
+  .logo {
+    font-size: 1rem;
+  }
+
+  .nav-links {
+    gap: 10px;
+  }
+
+  .nav-links a {
+    font-size: 0.79rem;
+  }
+
+  .nav-cta {
+    font-size: 0.62rem;
+    padding: 6px 10px;
+  }
+
+  .hero {
+    padding: 0 12px;
+  }
+
+  .hero h1 {
+    font-size: 1.72rem;
+  }
+
+  .hero p {
+    font-size: 0.9rem;
+  }
+
+  .hero-photo-secondary {
+    width: 76px;
+    height: 76px;
+  }
+
+  .section {
+    padding: 24px 12px 30px;
+  }
+
+  .section-header h2 {
+    font-size: 1.6rem;
+  }
+
+  .section-header p,
+  .about-text p,
+  .about-list,
+  .about-card p,
+  .footer p {
+    font-size: 0.88rem;
+  }
+
+  .product-card img {
+    height: 190px;
+  }
+
+  .product-title {
+    font-size: 1rem;
+  }
+
+  .product-desc {
+    font-size: 0.88rem;
+  }
+
+  .product-price {
+    font-size: 1.1rem;
+  }
+
+  .btn-add,
+  .btn-finalizar {
+    font-size: 0.8rem;
+  }
+
+  .filter-btn {
+    font-size: 0.74rem;
+    padding: 7px 11px;
+  }
+}
+
+/* FORÇAR TEXTO DE STATUS NO MOBILE */
+#status-loja {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+
+#status-texto {
+    display: block !important;
+    visibility: visible !important;
+    font-size: 10px !important;
+    white-space: nowrap !important; /* Impede o texto de ser espremido e sumir */
+    width: auto !important;
+}
+
+/* ==========================================================================
+   CARRINHO FLUTUANTE (Mobile)
+   ========================================================================== */
+.carrinho-flutuante {
+    position: fixed;
+    bottom: 25px;
+    right: 25px; /* Fica no canto inferior direito, perfeito para o dedão */
+    background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+    color: #1b0f0a;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    box-shadow: 0 8px 25px rgba(226, 138, 58, 0.4);
+    cursor: pointer;
+    z-index: 99; /* Fica por cima de tudo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+}
+
+/* Classe que esconde o botão quando o carrinho está vazio */
+.carrinho-flutuante.oculto {
+    transform: scale(0);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.contador-flutuante {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background: #e74c3c; /* Vermelho para chamar atenção */
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #1b0f0a;
+}
+
+/* Opcional: Se quiser que ele só apareça no celular, descomente abaixo */
+/* @media (min-width: 769px) { .carrinho-flutuante { display: none !important; } } */

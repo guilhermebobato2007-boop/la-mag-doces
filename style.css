@@ -1017,3 +1017,126 @@ body {
 .anima-carrinho {
   animation: pulinho 0.4s ease;
 }
+
+/* ==========================================================================
+   MODAL DE AVISO (Loja Fechada)
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo escurecido */
+    display: none; /* Escondido por padrão */
+    justify-content: center;
+    align-items: center;
+    z-index: 10000; /* Fica por cima de tudo, inclusive do carrinho */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.is-open {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: #fffaf0; /* Um creme bem clarinho */
+    padding: 2.5rem;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    border: 2px solid #e28a3a; /* Detalhe em caramelo */
+    transform: scale(0.8);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.is-open .modal-content {
+    transform: scale(1);
+}
+
+/* Ícone X de fechar */
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: #3e2723; /* Marrom escuro */
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Gatinho (se usar) */
+.modal-logo {
+    height: 60px;
+    margin-bottom: 1rem;
+}
+
+/* Ícone de loja fechada (fa-store-slash) */
+.modal-icon {
+    font-size: 3rem;
+    color: #e28a3a; /* Caramelo */
+    margin-bottom: 1rem;
+}
+
+/* Título (Playfair Display, se você usa) */
+.modal-content h2 {
+    font-family: 'Playfair Display', serif;
+    color: #3e2723; /* Marrom escuro */
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.modal-content p {
+    color: #5d4037; /* Marrom médio */
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+}
+
+/* Caixa de horários */
+.horario-info {
+    background-color: #efebe9;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.horario-info .destaque {
+    font-weight: bold;
+    color: #3e2723;
+    margin-bottom: 0.3rem;
+}
+
+.horario-info .dias {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+.horario-info .horas {
+    font-size: 1.2rem;
+    color: #e28a3a; /* Caramelo */
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+/* Botão do Modal */
+.modal-btn {
+    background-color: #e28a3a; /* Caramelo */
+    color: #fff;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%;
+}
+
+.modal-btn:hover {
+    background-color: #bf7330;
+}

@@ -179,13 +179,20 @@ function removerDoCarrinho(id) {
 function abrirCarrinho() {
   document.getElementById("cartOverlay")?.classList.add("is-open");
   document.getElementById("cartDrawer")?.classList.add("is-open");
+  
+  // A MÁGICA ANTI-BUG: Trava o body e o html ao mesmo tempo
+  document.documentElement.style.overflow = "hidden";
   document.body.style.overflow = "hidden";
+  
   renderCartDrawer();
 }
 
 function fecharCarrinho() {
   document.getElementById("cartOverlay")?.classList.remove("is-open");
   document.getElementById("cartDrawer")?.classList.remove("is-open");
+  
+  // Libera a página para rolar normalmente de novo
+  document.documentElement.style.overflow = "";
   document.body.style.overflow = "";
 }
 

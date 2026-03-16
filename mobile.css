@@ -630,5 +630,23 @@
     border: 2px solid #1b0f0a;
 }
 
-/* Opcional: Se quiser que ele só apareça no celular, descomente abaixo */
-/* @media (min-width: 769px) { .carrinho-flutuante { display: none !important; } } */
+/* ==========================================================================
+   CORREÇÃO DO CARRINHO TRAVADO (TECLADO E ZOOM)
+   ========================================================================== */
+
+/* 1. Impede o celular de dar zoom automático e travar a tela */
+.cart-input {
+    font-size: 16px !important; 
+}
+
+/* 2. Adapta a gaveta para o tamanho do teclado e permite rolar até o fim */
+.cart-drawer {
+    height: 100% !important; 
+    height: 100dvh !important; /* Medida moderna que desconta o espaço do teclado */
+    overflow-y: auto !important; /* Libera o scroll geral do carrinho */
+}
+
+/* 3. Evita que o formulário seja esmagado pelo teclado */
+.cart-form, .cart-drawer-footer {
+    flex-shrink: 0 !important; 
+}

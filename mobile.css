@@ -631,31 +631,33 @@
 }
 
 /* ==========================================================================
-   CORREÇÃO DEFINITIVA: CARRINHO, TECLADO E SCROLL
+   CORREÇÃO MÁXIMA: TRAVAMENTO DE TELA E TECLADO (IOS E ANDROID)
    ========================================================================== */
 
-/* 1. Evita o zoom automático do teclado no celular */
+/* 1. Trava o zoom ao clicar para digitar o nome */
 .cart-input {
     font-size: 16px !important; 
 }
 
-/* 2. Gaveta com altura exata da tela e bloqueio de rolagem do fundo */
+/* 2. Prega a gaveta no teto e no chão (Evita o pulo da barra de endereços) */
 .cart-drawer {
-    height: 100% !important; 
-    height: 100dvh !important; /* Desconta o espaço exato do teclado */
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important; /* A âncora que resolve o pulo */
+    height: auto !important; /* Removemos a altura problemática */
     display: flex !important;
     flex-direction: column !important;
-    overscroll-behavior: none !important; /* A MÁGICA: Impede a loja lá atrás de rolar junto! */
 }
 
-/* 3. Apenas a lista de produtos deve rolar, travando o movimento nela */
+/* 3. Apenas os produtos rolam. O botão de finalizar fica preso embaixo */
 .cart-drawer-list {
-    flex: 1 !important;
+    flex: 1 1 auto !important;
     overflow-y: auto !important;
-    overscroll-behavior: contain !important; /* Prende o scroll dentro da lista */
+    -webkit-overflow-scrolling: touch !important; /* Deixa a rolagem macia igual app no iPhone */
+    overscroll-behavior: contain !important; /* Corrente de proteção: não deixa o fundo rolar */
 }
 
-/* 4. Protege o formulário e o botão de serem esmagados pelo teclado */
+/* 4. Protege o formulário de ser esmagado */
 .cart-form, .cart-drawer-footer {
-    flex-shrink: 0 !important; 
+    flex: 0 0 auto !important;
 }

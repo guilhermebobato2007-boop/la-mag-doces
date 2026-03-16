@@ -1,228 +1,261 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lá M.A.G Confecção de Doces • Tortas Gourmet</title>
-  <meta name="description" content="Tortas Gourmet da Lá M.A.G Confecção de Doces. Monte seu pedido e envie pelo WhatsApp." />
+  <title>Lá M.A.G Confecções</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="mobile.css">
 </head>
-
 <body>
-  <!-- Faixa passando com a logo -->
-  <div class="marquee" aria-label="Faixa de marca">
-    <div class="marquee__track">
-      <div class="marquee__group">
-        <div class="marquee__item">
-          <img src="imagens/logo.png" alt="Lá M.A.G Confecção de Doces">
-          <span>Tortas Gourmet</span>
-        </div>
-        <div class="marquee__item">
-          <img src="imagens/logo.png" alt="">
-          <span>Pedidos no WhatsApp</span>
-        </div>
-        <div class="marquee__item">
-          <img src="imagens/logo.png" alt="">
-          <span>Apresentação premium</span>
-        </div>
-      </div>
+  
 
-      <div class="marquee__group" aria-hidden="true">
-        <div class="marquee__item">
-          <img src="imagens/logo.png" alt="">
-          <span>Tortas Gourmet</span>
+
+
+<nav class="navbar">
+    <div class="navbar-inner">
+        <div class="logo">
+            <a href="#home" style="text-decoration: none; color: inherit;">
+                Lá<span>M.A.G</span>
+            </a>
         </div>
-        <div class="marquee__item">
-          <img src="imagens/logo.png" alt="">
-          <span>Pedidos no WhatsApp</span>
+
+        <ul class="nav-links">
+            <li><a href="#home">Início</a></li>
+            <li><a href="#destaques">Destaques</a></li>
+            <li><a href="#cardapio">Cardápio</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+        </ul>
+        
+        <div class="nav-actions" style="display: flex; align-items: center; gap: 15px;">
+    
+            <div id="status-loja" style="display: flex; align-items: center; gap: 5px;">
+                <span id="status-bola"></span>
+                <span id="status-texto" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase;"></span>
+            </div>
+        
+            <button class="nav-cta" onclick="scrollToSection('cardapio')">VER CARDÁPIO</button>
+        
+            <button class="cart-button" onclick="abrirCarrinho()">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+        </div>  
+</nav>
+
+      
+
+  <!-- Hero -->
+  <header class="hero" id="home">
+    <div class="hero-content">
+      <span class="hero-tag">Doces artesanais gourmet.</span>
+      <h1>
+       Tortinhas artesanais<br />
+        com sabor <span>especial</span>.
+      </h1>
+      <p>
+        Tortinhas gourmet, doces artesanais e sabores que encantam. 
+     Tudo preparado com ingredientes selecionados e carinho em cada detalhe.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="scrollToSection('cardapio')">Ver cardápio completo   </button>
+        <button class="btn-outline" onclick="scrollToSection('destaques')">Ver destaques do dia</button>
+      </div>
+      <div class="hero-info">
+        <div>
+          <strong>+50</strong>
+          <span>Opções no balcão</span>
         </div>
-        <div class="marquee__item">
-          <img src="imagens/logo.png" alt="">
-          <span>Apresentação premium</span>
+        <div>
+          <strong>Desde 2026</strong>
+          <span>Adoçando momentos</span>
+        </div>
+        <div>
+          <strong>Encomendas</strong>
+          <span>Para festas & eventos</span>
         </div>
       </div>
     </div>
-  </div>
 
-  <header class="header">
-    <div class="container header__content">
-      <div class="brand">
-        <img class="brand__logo" src="imagens/logo.png" alt="Logo Lá M.A.G Confecção de Doces" />
-        <div>
-          <div class="brand__name">Lá M.A.G Confecção</div>
-        </div>
+    <div class="hero-image">
+      <div class="hero-photo-main"></div>
+      <div class="hero-photo-secondary"></div>
+      <div class="hero-badge">
+        <span>Mais pedido</span>
+        <strong>tortinha de Chocolate</strong>
       </div>
-
-      <nav class="nav">
-       <button class="btn btn--ghost" id="openCartBtn" type="button">
-          🛒 Carrinho <span class="badge" id="cartCount">0</span>
-        </button>
-      </nav>
     </div>
   </header>
 
-  <main>
-    <!-- HERO -->
-    <section class="hero">
-      <div class="container hero__grid">
-        <div>
-          <p class="pill">🍫 Tortas Gourmet com acabamento premium</p>
-          <h1>Tortas Gourmet que parecem presente.</h1>
-          <p class="sub">
-            Escolha seus sabores, monte o carrinho e envie o pedido direto no WhatsApp.
-            Ideal para presentear ou adoçar o dia.
-          </p>
-
-          <div class="hero__cta">
-            <a class="btn" href="#cardapio">Ver cardápio</a>
-            <button class="btn btn--ghost" id="whatsQuickBtn" type="button">Falar no WhatsApp</button>
-          </div>
-
-          <div class="hero__highlights">
-            <div class="mini">
-              <div class="mini__t">🎁 Apresentação</div>
-              <div class="mini__d">Perfeita para presente</div>
-            </div>
-            <div class="mini">
-              <div class="mini__t">✨ Gourmet</div>
-              <div class="mini__d">Sabores selecionados</div>
-            </div>
-            <div class="mini">
-              <div class="mini__t">📦 Encomendas</div>
-              <div class="mini__d">Retirada/entrega combinada</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Assinatura bonita da direita (mantida) -->
-        <div class="hero__card" aria-label="Assinatura Lá M.A.G">
-          <div class="hero__cardTop">
-            <span>Assinatura</span>
-            <strong>Lá M.A.G</strong>
-          </div>
-
-          <div class="hero__cardMid">
-  <img class="chip-img" src="imagens/torta-chocolate.jpg" alt="Torta Chocolate Premium">
-  <img class="chip-img chip--2" src="imagens/torta-maracuja.jpg" alt="Torta Maracujá Especial">
-  <img class="chip-img chip--3" src="imagens/torta-limao.jpg" alt="Torta Limão Premium">
-</div>
-
-          <div class="hero__cardBot">
-            <span>Tortas Gourmet</span>
-            <span>🍫</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CARDÁPIO -->
-    <section id="cardapio" class="section">
-      <div class="container">
-        <div class="section__head">
-          <h2>Cardápio</h2>
-          <div class="controls">
-            <input id="searchInput" type="search" placeholder="Buscar sabor" />
-            <select id="sortSelect">
-              <option value="reco">Recomendados</option>
-              <option value="priceAsc">Preço: menor → maior</option>
-              <option value="priceDesc">Preço: maior → menor</option>
-              <option value="nameAsc">Nome: A → Z</option>
-            </select>
-          </div>
-        </div>
-
-        <div id="productsGrid" class="grid"></div>
-
-        <div class="note">
-          <strong>Obs.:</strong> disponibilidade pode variar. Para encomendas especiais, chame no WhatsApp.
-        </div>
-      </div>
-    </section>
-
-    <!-- SOBRE -->
-    <section id="sobre" class="section section--soft">
-      <div class="container about">
-        <div>
-          <h2>Sobre</h2>
-          <p>
-            A <strong>Lá M.A.G Confecção de Doces</strong> trabalha com foco em <strong>Tortas gourmet</strong>,
-            com recheios cremosos e apresentação impecável para momentos especiais.
-          </p>
-          <ul class="list">
-            <li>✅ Tortas Gourmet</li>
-            <li>✅ Ideal para presentear</li>
-            <li>✅ Pedidos via WhatsApp</li>
-            <li>✅ Retirada/entrega combinada</li>
-          </ul>
-        </div>
-
-        <div class="about__card">
-          <h3>Pedidos</h3>
-          <p>Monte seu carrinho e envie no WhatsApp.</p>
-          <button class="btn" id="openCartBtn2" type="button">Montar pedido</button>
-          <small class="muted">Dica: preencha seu nome antes de enviar 😉</small>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Carrinho (Drawer) -->
-  <aside class="drawer" id="cartDrawer" aria-hidden="true">
-    <div class="drawer__overlay" id="closeCartOverlay"></div>
-
-    <div class="drawer__panel" role="dialog" aria-label="Carrinho">
-      <div class="drawer__head">
-        <h3>Seu carrinho</h3>
-        <button class="icon-btn" id="closeCartBtn" type="button" aria-label="Fechar">✕</button>
-      </div>
-
-      <div id="cartItems" class="cart"></div>
-
-      <div class="drawer__footer">
-        <div class="totals">
-          <div class="totals__row">
-            <span>Subtotal</span>
-            <strong id="cartSubtotal">R$ 0,00</strong>
-          </div>
-          <div class="totals__row muted">
-            <span>Entrega</span>
-            <span>Combinar no WhatsApp</span>
-          </div>
-        </div>
-
-        <div class="form">
-          <label class="label">Nome (obrigatório)</label>
-          <input id="customerName" placeholder="Seu nome:" />
-          <label class="label">Observações (opcional)</label>
-          <textarea id="customerNotes" rows="3" placeholder="Ex: Algo em especifico"></textarea>
-        </div>
-
-        <button class="btn btn--whats" id="sendWhatsBtn" type="button">Enviar pedido no WhatsApp</button>
-        <button class="btn btn--ghost" id="clearCartBtn" type="button">Limpar carrinho</button>
-      </div>
+  <!-- Destaques -->
+  <section class="section" id="destaques">
+    <div class="section-header">
+      <h2>Tortinhas em destaque</h2>
+      <p>Seleção especial para hoje — quantidades limitadas.</p>
     </div>
+    <div class="highlight-grid">
+      <article class="highlight-card">
+        <div class="highlight-image highlight-1"></div>
+        <div class="highlight-body">
+          <h3>Tortinha de Chocolate</h3>
+          <p>Chocolate intenso com textura cremosa e sabor irresistível.</p>
+          <span class="tag">Clássica</span>
+        </div>
+      </article>
+
+      <article class="highlight-card">
+        <div class="highlight-image highlight-2"></div>
+        <div class="highlight-body">
+          <h3>Tortinha de Limão</h3>
+          <p>Creme de limão suave com equilíbrio perfeito entre doce e cítrico.</p>
+          <span class="tag">Clássica</span>
+        </div>
+      </article>
+
+      <article class="highlight-card">
+        <div class="highlight-image highlight-3"></div>
+        <div class="highlight-body">
+          <h3>Tortinha de Maracujá</h3>
+          <p>Sabor tropical com equilíbrio entre acidez e doçura.</p>
+          <span class="tag">Especial</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Cardápio (JS preenche) -->
+  <section class="section section-alt" id="cardapio">
+    <div class="section-header">
+      <h2>Cardápio Premium</h2>
+      <p>Escolha seus favoritos e monte seu propio carrinho de doces.</p>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="todos">Todos</button>
+      <button class="filter-btn" data-filter="Clássicas">Clássicas</button>
+      <button class="filter-btn" data-filter="Especiais">Especiais</button>
+      <button class="filter-btn" data-filter="Novidades">Novidades</button>
+    </div>
+
+    <div class="product-grid" id="productsGrid">
+      <!-- preenchido via script.js -->
+    </div>
+
+    <div class="cart-hint">
+      Clique em “Adicionar à carrinho” para selecionar seus sabores favoritos.
+    </div>
+
+  </section>
+
+  <!-- Painel do carrinho (lateral) -->
+  <div id="cartOverlay" class="cart-overlay" onclick="fecharCarrinho()" aria-hidden="true"></div>
+  <aside id="cartDrawer" class="cart-drawer" aria-label="Carrinho de compras">
+      <div class="cart-drawer-header">
+          <h2>Seu carrinho </h2>
+          <button class="cart-drawer-close" onclick="fecharCarrinho()" aria-label="Fechar carrinho">
+              <i class="fa-solid fa-xmark"></i>
+          </button>
+      </div>
+  
+      <div id="cartDrawerList" class="cart-drawer-list"></div>
+  
+      <div class="cart-form">
+          <div class="form-section-title">Finalizar Pedido</div>
+          
+          <input type="text" id="clienteNome" class="cart-input" placeholder="Nome completo" required>
+          <input type="tel" id="clienteTelefone" class="cart-input" placeholder="WhatsApp (DDD + Número)" required>
+          
+          <div class="delivery-options">
+              <label class="radio-label">
+                  <input type="radio" name="tipoEntrega" value="retirada" checked onclick="toggleEndereco(false)"> 
+                  <span>Retirada (Grátis)</span>
+              </label>
+              <label class="radio-label">
+                  <input type="radio" name="tipoEntrega" value="entrega" onclick="toggleEndereco(true)"> 
+                  <span>Entrega (+ R$ 2,00)</span>
+              </label>
+          </div>
+  
+          <div id="campoEndereco" class="hidden">
+              <input type="text" id="clienteEndereco" class="cart-input" placeholder="Endereço (Rua, nº, Bairro)">
+          </div>
+      </div>
+  
+      <div class="cart-drawer-footer">
+          <p class="cart-drawer-total"><strong>Total:</strong> <span id="cartTotal">R$ 0,00</span></p>
+          <button type="button" class="btn-finalizar" onclick="finalizarCompra()">Finalizar via WhatsApp</button>
+      </div>
   </aside>
 
-  <footer class="footer">
-    <div class="container footer__content">
-      <span>© <span id="year"></span> Lá M.A.G Confecção de Doces</span>
-      <span class="muted">Tortas Gourmet 🍫</span>
+  <!-- Sobre -->
+  <section class="section" id="sobre">
+    <div class="about-grid">
+      <div class="about-text">
+       <h2>Tortinhas gourmet feitas com carinho</h2>
+<p>
+  A <strong>Lá M.A.G Confecção de Doces</strong> nasceu da paixão por criar
+  tortinhas gourmet que unem sabor, qualidade e uma apresentação encantadora.
+  Cada tortinha é preparada artesanalmente, com ingredientes selecionados
+  e muito cuidado em cada detalhe.
+</p>
+<p>
+  Nossas receitas combinam massas delicadas, recheios cremosos e ingredientes
+  especiais, como chocolates selecionados e frutas frescas, garantindo uma
+  experiência única em cada mordida.
+</p>
+<ul class="about-list">
+  <li>Tortinhas gourmet artesanais</li>
+  <li>Sabores variados como morango, limão, chocolate e maracujá</li>
+  <li>Produção especial para festas, eventos e encomendas</li>
+</ul>
+      </div>
+      <div class="about-card">
+        <h3>Horários & Endereço</h3>
+        <p><strong>Seg a Sex:</strong> 8h às 18h</p>
+        <p><strong>Sábados:</strong> Fechado</p>
+        <p><strong>Domingos:</strong> Fechado</p>
+        <hr />
+        <p><strong>Endereço:</strong><br />Barrinha/SP</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contato / Footer -->
+  <footer class="footer" id="contato">
+    <div class="footer-grid">
+      <div>
+        <h3>Lá M.A.G Confecção</h3>
+        <p>Tortinhas gourmet feitas para adoçar momentos especiais.</p>
+        <p>Lá M.A.G Confecção de Doces — tortinhas gourmet que transformam qualquer momento em algo especial.</p>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <p><i class="fa-brands fa-whatsapp footer-icon"></i> <span>(16) 99320-1091</span></p>
+        <p><i class="fa-solid fa-envelope footer-icon"></i> <span>contato@docemagia.com.br</span></p>
+        <p><i class="fa-solid fa-location-dot footer-icon"></i> <span>Barrinha/SP</span></p>
+      </div>
+      <div>
+        <h4>Redes sociais</h4>
+        <p><i class="fa-brands fa-instagram footer-icon"></i> <span>@La M.A.G Confecções de Doces</span></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Lá M.A.G Confecção. Todos os direitos reservados.</span>
+      <span>Site artesanal como nossos produtos.</span>
     </div>
   </footer>
 
-   <div id="popupAviso" class="popup-aviso">
-  <div class="popup-conteudo">
-    <h3>Aviso importante</h3>
-    <p>
-      Não fazemos novos pedidos aos finais de semana.
-      Realizamos apenas entregas de encomendas feitas durante a semana.
-    </p>
-    <button id="fecharPopup" class="btn" type="button">Entendi</button>
-  </div>
-</div>
-  
+  <!-- JS -->
   <script src="script.js"></script>
+
+<button id="carrinhoFlutuante" class="carrinho-flutuante oculto" onclick="abrirCarrinho()">
+    <i class="fa-solid fa-cart-shopping"></i>
+    <span id="contadorFlutuante" class="contador-flutuante">0</span>
+</button>
+
 </body>
 </html>
-
-

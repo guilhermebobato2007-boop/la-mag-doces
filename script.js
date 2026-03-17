@@ -293,7 +293,13 @@ function mostrarModalFechado() {
     const modal = document.getElementById('closedModal');
     if (modal) {
         modal.classList.add('is-open');
-        document.body.style.overflow = 'hidden';
+        
+        // Trava o scroll de um jeito que não "quebra" o fundo
+        document.body.style.overflow = "hidden";
+        document.body.style.height = "100vh";
+        
+        // Se for iPhone/Safari, essa linha ajuda a não bugar:
+        document.documentElement.style.overflow = "hidden";
     }
 }
 
@@ -301,9 +307,11 @@ function fecharModalFechado() {
     const modal = document.getElementById('closedModal');
     if (modal) {
         modal.classList.remove('is-open');
-        if (!document.getElementById("cartDrawer").classList.contains("is-open")) {
-            document.body.style.overflow = '';
-        }
+        
+        // Libera a rolagem
+        document.body.style.overflow = "";
+        document.body.style.height = "";
+        document.documentElement.style.overflow = "";
     }
 }
 
